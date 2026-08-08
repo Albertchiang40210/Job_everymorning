@@ -1,0 +1,7 @@
+.env
+__pycache__/
+*.pdf
+.DS_Store
+run_scraper.bat
+test_models.py
+find_model.py

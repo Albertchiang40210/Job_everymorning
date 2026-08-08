@@ -1,0 +1,22 @@
+【求職目標】
+AI影像辨識工程師、Python 後端工程師、AI 應用整合工程師
+
+【核心技能】
+- 後端與資料流架構：Python, FastAPI, Kafka, PostgreSQL, MySQL
+- 邊緣運算與串流部署：NVIDIA DeepStream, Triton Inference Server, MediaMTX, go2rtc, GStreamer
+- AI 視覺模型與 LLM 應用：YOLO 系列, Action Transformer, DETR, VLM (視覺語言模型), LangGraph, OpenCV
+- MLOps 與 DevOps：ClearML, Label Studio (Active Learning), Docker, Git
+- 前端整合：Streamlit, HTML5 / CSS3 / JavaScript
+
+【過往經歷與專案成就】
+1. 資展國際 - 培訓工程師 / 專案開發學員 (Python AI應用工程師就業養成班)
+2. 核心主打專案：醫療場域 Edge AI 與資料飛輪自動化迭代系統
+   - 負責建構 RTSP -> DeepStream 高效能即時影像管線，整合 Triton Inference Server。
+   - 導入 Kafka 與 LangGraph 驅動 VLM 進行二次邏輯過濾，攔截誤報。
+   - 設計 Active Learning 迴圈，整合 Label Studio 與 ClearML 實現模型自動化再訓練與 Triton 熱更新。
+3. 具備 AI-Augmented Development (Vibe Coding) 經驗，能快速交付 MVP。
+
+【語言能力】
+- 英文：聽說讀寫 中等
+- 中文：精通
+- 台語：精通

@@ -1,0 +1,36 @@
+name: Daily Job Scraper
+
+on:
+  schedule:
+    # 每天 UTC 時間 00:00 執行 (大約台灣時間早上 08:00)
+    - cron: '0 0 * * *'
+  workflow_dispatch: # 允許手動從網頁觸發執行測試
+
+jobs:
+  scrape_and_notify:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: 'pip' # 快取 pip 模組以加快速度
+          
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          
+      - name: Install Playwright Browsers
+        run: playwright install chromium
+          
+      - name: Run Scraper
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+        run: |
+          python main.py
