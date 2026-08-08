@@ -50,8 +50,8 @@ def main():
         job['score'] = result.get('score', 0)
         job['reason'] = result.get('reason', '無')
         
-        # 只推薦分數大於等於 90 分的職缺
-        if job['score'] >= 90:
+        # 轉職生建議將門檻調降至 75 分，以獲取更多潛在機會
+        if job['score'] >= 75:
             recommended_jobs.append(job)
             
         # 為了避免 Google API 免費版限制 (3 次 / 分鐘)，每次評估完休息 22 秒
