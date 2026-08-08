@@ -15,7 +15,7 @@ def evaluate_job(resume_text: str, job_title: str, job_description: str) -> dict
         print("未設定 GEMINI_API_KEY，將跳過 AI 評估。")
         return {"score": 0, "reason": "No API Key"}
 
-    url = f"https://generativelanguage.googleapis.com/v1beta/models/deep-research-preview-04-2026:generateContent?key={api_key}"
+    url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key={api_key}"
     
     prompt = f"""
     你是一個專業的職涯顧問。請根據以下求職者的「履歷摘要」與「職缺資訊」，評估此職缺與求職者的匹配程度。
@@ -23,56 +23,54 @@ def evaluate_job(resume_text: str, job_title: str, job_description: str) -> dict
     【求職者履歷摘要】
     {resume_text}
     
-    【職缺標題】
-    {job_title}
+    【職缺資訊】
+    職缺名稱：{job_title}
+    職缺描述：{job_description}
     
-    【職缺內容】
-    {job_description}
-    
-    請以 JSON 格式回傳，包含以下兩個欄位：
-    - "score": 匹配分數 (整數 0 到 100，越高越匹配)
-    - "reason": 給求職者的簡短推薦理由 (繁體中文，限制在 50 字以內，說明為什麼適合或不適合)
-    
-    注意：只回傳 JSON，不要包含其他文字或 Markdown 標籤 (如 ```json)。
+    請務必以 JSON 格式回覆，格式如下：
+    {{"score": 85, "reason": "因為具備 Python 技能，符合職缺需求。"}}
+    score 必須是 0 到 100 的整數。
     """
-
-    payload = {
-        "contents": [{
-            "parts": [{"text": prompt}]
-        }],
-        "generationConfig": {
-            "temperature": 0.2
-        }
+    
+    headers = {"Content-Type": "application/json"}
+    data = {
+        "contents": [{"parts": [{"text": prompt}]}]
     }
     
-    headers = {
-        "Content-Type": "application/json"
-    }
-
     try:
-        response = requests.post(url, json=payload, headers=headers, timeout=15)
+        response = requests.post(url, headers=headers, json=data, timeout=15)
         if response.status_code == 200:
-            data = response.json()
-            try:
-                text = data['candidates'][0]['content']['parts'][0]['text'].strip()
-                # 移除可能存在的 markdown json 標籤
-                if text.startswith("```json"):
-                    text = text[7:]
-                if text.endswith("```"):
-                    text = text[:-3]
+            result = response.json()
+            # 這裡簡單提取 JSON 內容
+            text_response = result['candidates'][0]['content']['parts'][0]['text']
+            
+            # 清理 Markdown JSON 標記
+            if text_response.startswith("```json"):
+                text_response = text_response[7:-3]
+            elif text_response.startswith("```"):
+                text_response = text_response[3:-3]
                 
-                result = json.loads(text.strip())
-                return {
-                    "score": int(result.get("score", 0)),
-                    "reason": result.get("reason", "解析失敗")
-                }
-            except (KeyError, IndexError, json.JSONDecodeError) as e:
-                print(f"AI 回應格式錯誤: {e}")
-                return {"score": 0, "reason": "AI 回應無法解析"}
+            return json.loads(text_response.strip())
         else:
-            print(f"Gemini API 請求失敗，狀態碼: {response.status_code}, {response.text}")
-            return {"score": 0, "reason": f"API 錯誤: {response.status_code}"}
+            print(f"Gemini API 請求失敗，狀態碼: {response.status_code}")
+            # 落後備援機制：如果 API 壞掉或限制，改用簡單關鍵字判斷
+            score = 60
+            reason = "API 無法使用，使用基礎判斷。缺少關鍵技能。"
+            desc = job_description.lower()
+            if "python" in desc or "ai" in desc or "machine learning" in desc or "deep learning" in desc:
+                score += 20
+                reason = "API 降級模式：發現 Python/AI 等關鍵字，初步判定符合。"
+            if "junior" in desc or "助理" in desc or "實習" in desc:
+                score += 15
+                reason += " 適合初階/實習等級。"
+            elif "senior" in desc or "資深" in desc:
+                score -= 10
+            
+            if score > 100: score = 100
+            if score >= 90:
+                reason = "[關鍵字精準命中] " + reason
+            
+            return {"score": score, "reason": reason}
             
     except Exception as e:
-        print(f"AI 評估時發生例外錯誤: {e}")
         return {"score": 0, "reason": f"例外錯誤: {str(e)}"}
