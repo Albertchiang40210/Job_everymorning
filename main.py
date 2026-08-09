@@ -15,8 +15,8 @@ def read_resume():
         return ""
 
 def main():
-    keyword = "AI Engineer"
-    print(f"=== 啟動每日求職爬蟲 ({keyword}) ===")
+    keywords = ["AI Engineer", "Python", "軟體工程師"]
+    print(f"=== 啟動每日求職爬蟲 ({', '.join(keywords)}) ===")
     
     resume_text = read_resume()
     if not resume_text:
@@ -25,21 +25,23 @@ def main():
     all_jobs = []
     
     # 1. 抓取各平台職缺
-    try:
-        all_jobs.extend(scrape_104(keyword=keyword, limit=5))
-    except Exception as e:
-        print(f"104 爬蟲失敗: {e}")
-        
-    try:
-        all_jobs.extend(scrape_cake(keyword=keyword, limit=5))
-    except Exception as e:
-        print(f"Cake 爬蟲失敗: {e}")
-        
-    try:
-        all_jobs.extend(scrape_yourator(keyword=keyword, limit=5))
-    except Exception as e:
-        print(f"Yourator 爬蟲失敗: {e}")
-        
+    for keyword in keywords:
+        print(f"開始搜尋關鍵字: {keyword}")
+        try:
+            all_jobs.extend(scrape_104(keyword=keyword, limit=3))
+        except Exception as e:
+            print(f"104 爬蟲失敗: {e}")
+            
+        try:
+            all_jobs.extend(scrape_cake(keyword=keyword, limit=3))
+        except Exception as e:
+            print(f"Cake 爬蟲失敗: {e}")
+            
+        try:
+            all_jobs.extend(scrape_yourator(keyword=keyword, limit=3))
+        except Exception as e:
+            print(f"Yourator 爬蟲失敗: {e}")
+            
     print(f"總共抓取到 {len(all_jobs)} 筆職缺，準備進行 AI 評估...")
 
     # 2. AI 評估
