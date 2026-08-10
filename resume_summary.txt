@@ -1,22 +1,28 @@
 【求職目標】
-AI影像辨識工程師、Python 後端工程師、AI 應用整合工程師
+AI 應用工程師、電腦視覺與後端系統整合
 
 【核心技能】
-- 後端與資料流架構：Python, FastAPI, Kafka, PostgreSQL, MySQL
-- 邊緣運算與串流部署：NVIDIA DeepStream, Triton Inference Server, MediaMTX, go2rtc, GStreamer
-- AI 視覺模型與 LLM 應用：YOLO 系列, Action Transformer, DETR, VLM (視覺語言模型), LangGraph, OpenCV
-- MLOps 與 DevOps：ClearML, Label Studio (Active Learning), Docker, Git
-- 前端整合：Streamlit, HTML5 / CSS3 / JavaScript
+- 後端與系統架構：Python, FastAPI, Kafka, PostgreSQL, MySQL
+- 邊緣運算與串流部署：MLOps, Triton Inference Server, Docker, MediaMTX, GStreamer
+- AI 視覺模型與 LLM 應用：YOLO, Action Transformer, RT-DETR, VLM, LangGraph, Qwen 2.5, ChromaDB (RAG/RRF), OpenCV
+- MLOps 與 DevOps：ClearML, Label Studio (Active Learning)
+- 前端與爬蟲數據處理：Streamlit, Web Scraping (BeautifulSoup/Selenium)
 
 【過往經歷與專案成就】
-1. 資展國際 - 培訓工程師 / 專案開發學員 (Python AI應用工程師就業養成班)
-2. 核心主打專案：醫療場域 Edge AI 與資料飛輪自動化迭代系統
-   - 負責建構 RTSP -> DeepStream 高效能即時影像管線，整合 Triton Inference Server。
-   - 導入 Kafka 與 LangGraph 驅動 VLM 進行二次邏輯過濾，攔截誤報。
-   - 設計 Active Learning 迴圈，整合 Label Studio 與 ClearML 實現模型自動化再訓練與 Triton 熱更新。
-3. 具備 AI-Augmented Development (Vibe Coding) 經驗，能快速交付 MVP。
+1. 安養中心 AI 即時通報系統
+   - 運用 Docker 容器化技術，透過 MediaMTX / GStreamer 處理多路影像串流，導入 Triton 控管 GPU 實現高併發即時推論。
+   - 結合 YOLO 與 Action Transformer，後端運用 Kafka 建立非同步訊息串流，確保高流量警報不遺漏。
+2. 供應鏈風險動態稽核系統 (RAG Agent)
+   - 於本機端部署 Qwen 2.5，結合 ChromaDB 建構 RAG，並實作 RRF 混合搜尋演算法提升檢索精準度。
+   - 透過 Streamlit 打造完整互動介面決策輔助系統。
+3. 門市營運與薪資自動化系統
+   - End-to-End 全端獨立開發，後端採用 FastAPI 串接 MySQL，將繁瑣紙本作業 100% 數位自動化。
+4. 自動化職缺數據爬蟲系統
+   - 撰寫防錯機制的 Python 爬蟲，結合排程工具建立自動執行機制。
+5. 工作經驗：
+   - 香港商立德國際商品試驗台灣分公司 - 技術數據處理專員 (數據處理與防錯機制)
+   - 淡水汽車客運 - 營運與行政管理主管 (複雜帳務與薪資邏輯處理、系統化思維)
 
 【語言能力】
-- 英文：聽說讀寫 中等
-- 中文：精通
-- 台語：精通
+- 中文：專業
+- 英文：中階
